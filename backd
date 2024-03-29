@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# EDIT ME before use for the first time!
+# List of folders/drives to be backed up. These are the default locations that
+# will be backed up.
+primaryDirs=("/Volumes/mydrive01" "/Volumes/mydrive02" "/Users/Shared/myfolder03")
+
+# EDIT ME before use for the first time!
+# OPTIONAL: List of folders/drives to be backed up. These are the locations 
+# that will be backed up  when using the "-e" option. For example, these
+# may be more critical folders that you wnat to back up more often.
+essentialDirs=("/Volumes/mydrive01/ImportantFolder01" "/Volumes/mydrive01/ImportantFolder02")
+
+# Get the name of this script (i.e. "backd") in case somebody renamed it.
+scriptName=${0##*/}
+
+if [ "$1" == "" ]; then
+	# No parameters were given
+	echo $scriptName" [-e] destination-drive (e.g. "$scriptName" MyBackupDrive)." >&2
+	exit 1
+else
+	if [ "$1" == "-e" ]; then
+		if [ "$2" == "" ]; then
+			echo "Missing destination-drive." >&2
+			exit 1
+		fi
+		# The destination-drive name was given in the second parameter because 
+		# the first parameter was "-e".
+		destDrive="/Volumes/"$2
+		sourceDirs=("${essentialDirs[@]}")
+	else
+		# The destination-drive name is the first parameter.
+		destDrive="/Volumes/"$1
+		sourceDirs=("${primaryDirs[@]}")
+	fi
+fi
+
+# Check if the destination drive exists.
+if [ ! -d "$destDrive" ]; then
+	echo "$destDrive does not exist" >&2
+	exit 1
+fi
+
+# Check if this script is being run by the root user (e.g. run using "sudo").
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root user (sudo)." >&2
+	exit 1
+fi
+
+# Form the date prefix for the destination backup folder in the form of 
+# "YYYYMMDD-". Note that there is a "-" at the end of the prefix.
+datePrefix=$(date "+%Y%m%d-")
+
+echo $scriptName" started on: $(date "+%Y-%m-%d %T")"
+for sourcePath in ${sourceDirs[@]}; do
+	SECONDS=0
+	
+	# Check for existing backup folders in the destination-drive to see if they
+	# already exist. If so, delete them first.
+	dirName=${sourcePath##*/}
+	if ls $destDrive/*-$dirName 1> /dev/null 2>&1; then
+		echo "Removing old "$dirName" directory first..."
+		rm -rf $destDrive/*-$dirName
+	fi
+
+	newDirName=$datePrefix$dirName
+	destPath=$destDrive"/"$newDirName
+
+	# Copy from the source folder/drive to the destination-drive using "ditto"
+	# because it will preserve the metadata (e.g. last modified date).
+	echo "Backing up "$sourcePath"..."
+	ditto $sourcePath $destPath
+
+	duration=$SECONDS
+	echo "Time Elapsed: $((duration / 3600)) hours $(((duration / 60) % 60)) mins and $((duration % 60)) secs."
+done
+
