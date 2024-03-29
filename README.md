@@ -13,7 +13,7 @@ To run the script:
 3. The script has an array of a secondary set of folders/drives that it can back up. These are the "essential" ones that you can back up more frequently. To back up the essential folders/drives, use the "-e" option. E.g. "sudo backd -e destination-drive".
 
 To schedule this script to run daily (default 2:00AM every day):
-1. Edit the com.codewrought.backd.plist. E.g. "vi com.codewrought.backd.plist". Modify the "destination-drive" to be the name of your destination backup drive. Optionally, if you want the schedule backin up the secondary set of folders/drive instead, you can add the "-e" option as the second parameter by adding the line "<string>-e</string>" between the first and second "ProgramArguments".
+1. Edit the com.codewrought.backd.plist. E.g. "vi com.codewrought.backd.plist". Modify the "destination-drive" to be the name of your destination backup drive. Optionally, if you want the schedule backing up the secondary set of folders/drive instead, you can add the "-e" option as the second parameter by adding the line "<string>-e</string>" between the first and second "ProgramArguments".
 2. Copy com.codewrought.backd.plist file to /Library/LaunchDaemons. E.g. "sudo cp com.codewrought.backd.plist /Library/LaunchDaemons".
 3. If you want to change when the script runs. Edit the "StartCalendarInterval" section.
 4. To schedule the job, type: "sudo launchctl load -w /Library/LaunchDaemons/com.codewrought.backd.plist".
