@@ -5,7 +5,8 @@ One time setup:
 1. Start the Terminal app.
 2. "cd" into the folder where you downloaded this GitHub project. E.g. "cd ~/GitHub/backd".
 3. Edit the backd script by editing the array of source folders/drives to be backed up. E.g. "vi backd". Follow the instructions in the comments for where/what to change. Look for the parts tagged with "EDIT ME".
-4. Copy the backd file to /usr/local/bin using sudo. E.g. "sudo cp backd /usr/local/bin".
+4. Make the backd script executable. E.g. "chmod +x backd".
+5. Copy the backd file to /usr/local/bin using sudo. E.g. "sudo cp backd /usr/local/bin".
 
 To run the script:
 1. Make sure that your destination-drive is connected to the computer and is available for use.
