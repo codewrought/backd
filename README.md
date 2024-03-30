@@ -14,12 +14,13 @@ To run the script:
 3. The script has an array of a secondary set of folders/drives that it can back up. These are the "essential" ones that you can back up more frequently. To back up the essential folders/drives, use the "-e" option. E.g. "sudo backd -e destination-drive".
 
 To schedule this script to run daily (default 2:00AM every day):
-1. Edit the com.codewrought.backd.plist. E.g. "vi com.codewrought.backd.plist". Modify the "destination-drive" to be the name of your destination backup drive. Optionally, if you want the schedule backing up the secondary set of folders/drive instead, you can add the "-e" option as the second parameter by adding the line "````<string>-e</string>````" between the first and second "ProgramArguments".
-2. Copy com.codewrought.backd.plist file to /Library/LaunchDaemons. E.g. "sudo cp com.codewrought.backd.plist /Library/LaunchDaemons".
-3. If you want to change when the script runs. Edit the "StartCalendarInterval" section.
-4. To schedule the job, type: "sudo launchctl load -w /Library/LaunchDaemons/com.codewrought.backd.plist".
-5. The output of the script will be in /tmp/ directory. To see the output in real-time when the scheduled script runs, you can run: "tail -f /tmp/com.codewrought.backd.stdout".
-6. To do a test run of the scheduled script, type: "sudo launchctl start com.codewrought.backd".
+1. You need to first give the bash app full disk access in the Mac System Settings. Go to: Settings -> Privacy & Security -> Full Disk Access. Using a Finder window, press Cmd-Shift-G and enter: "/bin". Drag and drop the "bash" app into the "Full Disk Access" Systems Settings panel.
+2. Edit the com.codewrought.backd.plist. E.g. "vi com.codewrought.backd.plist". Modify the "destination-drive" to be the name of your destination backup drive. Optionally, if you want the schedule backing up the secondary set of folders/drive instead, you can add the "-e" option as the second parameter by adding the line "````<string>-e</string>````" between the first and second "ProgramArguments".
+3. Copy com.codewrought.backd.plist file to /Library/LaunchDaemons. E.g. "sudo cp com.codewrought.backd.plist /Library/LaunchDaemons".
+4. If you want to change when the script runs. Edit the "StartCalendarInterval" section.
+5. To schedule the job, type: "sudo launchctl load -w /Library/LaunchDaemons/com.codewrought.backd.plist".
+6. The output of the script will be in /tmp/ directory. To see the output in real-time when the scheduled script runs, you can run: "tail -f /tmp/com.codewrought.backd.stdout".
+7. To do a test run of the scheduled script, type: "sudo launchctl start com.codewrought.backd".
 
 Future version ideas:
 Have a config file containing the source folders/drives instead of being a hard-coded array in the script.
