@@ -55,6 +55,12 @@ echo $scriptName" started on: $(date "+%Y-%m-%d %T")"
 for sourcePath in ${sourceDirs[@]}; do
 	SECONDS=0
 	
+	# Check if the source drive exists.
+    if [ ! -d "$sourcePath" ]; then
+        echo "$sourcePath does not exist. Skipping..." >&2
+        continue
+    fi
+
 	# Check for existing backup folders in the destination-drive to see if they
 	# already exist. If so, delete them first.
 	dirName=${sourcePath##*/}
