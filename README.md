@@ -1,6 +1,9 @@
 # backd
- Mac OS specific Bash script to automatically backup up multiple folders/drives into a destination-drive. The backup folders created on the destination-drive will have the format of YYYYMMDD-folder where YYYY = year, MM = month, DD = day and folder = the name of the source directory/folder that is being backed up. If the target drive has an existing backup folder from a previous run, it will be deleted first before a fresh copy replaces it with the current date's prefix. All backups will be placed at the root folder of the destination-drive.
- 
+ Mac OS specific Bash script to automatically backup up multiple folders/drives into a destination-drive. The backup folders created on the destination-drive will have the format of YYYYMMDD-folder where YYYY = year, MM = month, DD = day and folder = the name of the source folder that is being backed up. If the target drive has an existing backup folder from a previous run, it will be deleted first before a fresh copy replaces it with the current date's prefix. All backups will be placed at the root folder of the destination-drive.
+
+WARNING:
+This script deletes folders (and all associated files) that match the same ending name pattern as the ones from the source before copying. For example, if you have a source folder called "abc" and the destination-drive has folders that end with "abc" such as "my-abc" or "someabc", they will get deleted first before a copy of the "abc" folder is made on the destination-drive.
+
 One time setup:
 1. Start the Terminal app.
 2. "cd" into the folder where you downloaded this GitHub project. E.g. "cd ~/GitHub/backd".
